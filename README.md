@@ -1,0 +1,2 @@
+# AutoPing
+ping automatizado
