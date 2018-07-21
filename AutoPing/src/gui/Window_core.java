@@ -10,6 +10,7 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -24,6 +25,30 @@ public class Window_core extends javax.swing.JFrame {
         initComponents();
     }
 
+    private void launchAtack(String please_kill_me, int i_really_want_to_die, int i_cry_every_night)
+    {
+        output.setText("");
+        Atack dos = new Atack(please_kill_me,i_really_want_to_die,i_cry_every_night);
+        dos.run();
+        BufferedInputStream generalOutput = dos.getGeneralOutput();
+        
+        try 
+        {    
+            int line;
+            while((line=(generalOutput.read())) != -1)
+            {
+                output.append(String.valueOf((char)line));
+            }       
+        } 
+        catch (IOException ex)
+        {
+            System.out.println("error al generar el output");
+            ex.printStackTrace();
+        }
+    }
+    
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -39,11 +64,19 @@ public class Window_core extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         output = new javax.swing.JTextArea();
+        jSeparator1 = new javax.swing.JSeparator();
+        jLabel3 = new javax.swing.JLabel();
+        no_limit = new javax.swing.JCheckBox();
+        jSeparator2 = new javax.swing.JSeparator();
+        jLabel4 = new javax.swing.JLabel();
+        randomsize = new javax.swing.JCheckBox();
+        num_p = new javax.swing.JSpinner();
+        size_p = new javax.swing.JSpinner();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Give me an IP adress or a DNS");
+        jLabel1.setText("IP // DNS");
 
         ping_button.setBackground(new java.awt.Color(0, 0, 0));
         ping_button.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -69,8 +102,8 @@ public class Window_core extends javax.swing.JFrame {
             ping_buttonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ping_buttonLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel2)
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 22, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         output.setEditable(false);
@@ -78,38 +111,100 @@ public class Window_core extends javax.swing.JFrame {
         output.setRows(5);
         jScrollPane1.setViewportView(output);
 
+        jSeparator1.setBackground(new java.awt.Color(0, 0, 0));
+        jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
+
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setText("número de paquetes");
+
+        no_limit.setText("sin límite");
+        no_limit.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                no_limitMouseClicked(evt);
+            }
+        });
+
+        jSeparator2.setBackground(new java.awt.Color(0, 0, 0));
+        jSeparator2.setOrientation(javax.swing.SwingConstants.VERTICAL);
+
+        jLabel4.setText("tamaño por paquete (Bytes)");
+
+        randomsize.setText("random");
+        randomsize.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                randomsizeMouseClicked(evt);
+            }
+        });
+
+        num_p.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
+
+        size_p.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 411, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(dns_adress)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 286, Short.MAX_VALUE))
-                        .addGap(72, 72, 72))))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(164, 164, 164)
-                .addComponent(ping_button, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
+                            .addComponent(dns_adress))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(num_p, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(no_limit))
+                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(size_p, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(randomsize)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+                        .addComponent(ping_button, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(44, 44, 44)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(dns_adress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(ping_button, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(37, 37, 37)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(76, Short.MAX_VALUE))
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(ping_button, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(18, 18, 18))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jSeparator2)
+                            .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(dns_adress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(no_limit)
+                                    .addComponent(num_p, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(size_p, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(randomsize))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
@@ -117,26 +212,30 @@ public class Window_core extends javax.swing.JFrame {
 
     private void ping_buttonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ping_buttonMouseClicked
         
-        output.setText("");
-        Atack dos = new Atack(dns_adress.getText(),4,32);
-        dos.run();
-        BufferedInputStream generalOutput = dos.getGeneralOutput();
-        
         try 
-        {    
-            int line;
-            while((line=(generalOutput.read())) != -1)
-            {
-                output.append(String.valueOf((char)line));
-            }       
-        } 
-        catch (IOException ex)
         {
-            System.out.println("error al generar el output");
-            ex.printStackTrace();
+            num=(no_limit.isSelected())? -1 : (int)num_p.getValue();
+            size=(randomsize.isSelected())? 4 : (int)size_p.getValue();
+            launchAtack(dns_adress.getText(),num,size);    
+        } 
+        catch (NullPointerException e) 
+        {
+            JOptionPane.showMessageDialog(this, "deben llenarse todos los parámetros");
         }
         
     }//GEN-LAST:event_ping_buttonMouseClicked
+
+    private void no_limitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_no_limitMouseClicked
+        
+        num_p.setEnabled(!no_limit.isSelected());
+        
+    }//GEN-LAST:event_no_limitMouseClicked
+
+    private void randomsizeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_randomsizeMouseClicked
+        
+        size_p.setEnabled(!randomsize.isSelected());
+        
+    }//GEN-LAST:event_randomsizeMouseClicked
 
     /**
      * @param args the command line arguments
@@ -173,12 +272,23 @@ public class Window_core extends javax.swing.JFrame {
         });
     }
 
+    private int num = 1,
+                size = 1;
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField dns_adress;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JCheckBox no_limit;
+    private javax.swing.JSpinner num_p;
     private javax.swing.JTextArea output;
     private javax.swing.JPanel ping_button;
+    private javax.swing.JCheckBox randomsize;
+    private javax.swing.JSpinner size_p;
     // End of variables declaration//GEN-END:variables
 }

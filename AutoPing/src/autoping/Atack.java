@@ -27,6 +27,7 @@ public class Atack implements Runnable{
     {
         try 
         {
+            System.out.println(dns+"    "+counter+"     "+how_big);
             startAtack();
         }
         catch (IOException e)
